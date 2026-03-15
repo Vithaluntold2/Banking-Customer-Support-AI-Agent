@@ -39,6 +39,7 @@ class ClassifierAgent:
             azure_endpoint=AZURE_OPENAI_ENDPOINT,
             api_key=AZURE_OPENAI_API_KEY,
             api_version=AZURE_OPENAI_API_VERSION,
+            max_completion_tokens=4096,
         )
         self.prompt = ChatPromptTemplate.from_template(CLASSIFICATION_PROMPT)
         self.chain = self.prompt | self.llm

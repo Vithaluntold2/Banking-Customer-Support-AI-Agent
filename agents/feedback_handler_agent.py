@@ -55,6 +55,7 @@ class FeedbackHandlerAgent:
             azure_endpoint=AZURE_OPENAI_ENDPOINT,
             api_key=AZURE_OPENAI_API_KEY,
             api_version=AZURE_OPENAI_API_VERSION,
+            max_completion_tokens=4096,
         )
 
     def handle_positive(self, message: str) -> dict:

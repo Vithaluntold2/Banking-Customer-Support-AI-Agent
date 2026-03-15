@@ -64,6 +64,7 @@ def score_response_quality(response, classification, message):
             azure_endpoint=AZURE_OPENAI_ENDPOINT,
             api_key=AZURE_OPENAI_API_KEY,
             api_version=AZURE_OPENAI_API_VERSION,
+            max_completion_tokens=4096,
         )
         prompt = ChatPromptTemplate.from_template(SCORING_PROMPT)
         chain = prompt | llm
