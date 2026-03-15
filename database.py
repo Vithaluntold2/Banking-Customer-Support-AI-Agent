@@ -1,5 +1,6 @@
 # database.py - SQLite operations for support tickets
 
+import os
 import sqlite3
 import random
 from datetime import datetime
@@ -7,6 +8,7 @@ from config import DATABASE_PATH
 
 
 def get_connection():
+    os.makedirs(os.path.dirname(DATABASE_PATH), exist_ok=True)
     conn = sqlite3.connect(DATABASE_PATH)
     conn.row_factory = sqlite3.Row
     return conn
