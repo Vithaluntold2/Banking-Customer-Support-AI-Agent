@@ -22,7 +22,7 @@ class AgentOrchestrator:
         self.query_handler = QueryHandlerAgent()
         os.makedirs(LOG_DIR, exist_ok=True)
 
-    def process_message(self, message: str) -> dict:
+    def process_message(self, message: str, customer_name: str = None) -> dict:
         """Main entry point. Classifies the message, routes to handler, logs it."""
         ts = datetime.now().isoformat()
 
@@ -42,7 +42,7 @@ class AgentOrchestrator:
             path = "Classifier -> Positive Feedback Handler"
 
         elif classification == "negative_feedback":
-            result = self.feedback_handler.handle_negative(message)
+            result = self.feedback_handler.handle_negative(message, customer_name=customer_name)
             path = "Classifier -> Negative Feedback Handler"
 
         elif classification == "query":

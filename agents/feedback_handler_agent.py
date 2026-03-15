@@ -75,7 +75,7 @@ class FeedbackHandlerAgent:
             ],
         }
 
-    def handle_negative(self, message: str) -> dict:
+    def handle_negative(self, message: str, customer_name: str = None) -> dict:
         """Extracts the issue, creates a new support ticket, and responds empathetically."""
         traces = []
 
@@ -93,10 +93,13 @@ class FeedbackHandlerAgent:
         try:
             parsed = json.loads(extraction.content.strip())
             issue = parsed.get("issue_description", message)
-            name = parsed.get("customer_name", "Valued Customer")
+            llm_name = parsed.get("customer_name", "Valued Customer")
         except (json.JSONDecodeError, KeyError):
             issue = message
-            name = "Valued Customer"
+            llm_name = "Valued Customer"
+
+        # prefer the name the user typed in the UI over whatever the LLM guessed
+        name = customer_name if customer_name else llm_name
 
         # step 2 - create the ticket
         tid = generate_ticket_id()

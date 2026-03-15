@@ -88,12 +88,23 @@ with st.sidebar:
 if page == ":material/chat: Chat":
     st.markdown("### :material/support_agent: Customer Support Agent")
     st.caption("Send a message and watch the multi-agent system classify and respond.")
+
+    # collect customer name once - used when creating tickets
+    if "customer_name" not in st.session_state:
+        st.session_state.customer_name = ""
+    cust_name = st.text_input(
+        ":material/person: Your Name",
+        value=st.session_state.customer_name,
+        placeholder="Enter your name before chatting",
+    )
+    st.session_state.customer_name = cust_name.strip()
     st.divider()
 
     user_input = st.chat_input("Type your message here...")
     if user_input:
+        name = st.session_state.customer_name or None
         with st.spinner("Processing through agent pipeline..."):
-            result = orchestrator.process_message(user_input)
+            result = orchestrator.process_message(user_input, customer_name=name)
         st.session_state.chat_history.append({"user": user_input, "result": result})
 
     for entry in st.session_state.chat_history:
